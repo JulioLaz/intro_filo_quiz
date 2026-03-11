@@ -10,7 +10,7 @@
   --bg:#050a0e;--bg2:#0a1520;--bg3:#0f1e2e;
   --gold:#ffb300;--gold2:#ff8c00;
   --cyan:#00e5ff;--green:#00ff88;--red:#ff3b5c;
-  --purple:#b44fff;--white:#e8f4fd;--dim:#4a6070;
+  --purple:#b44fff;--white:#e8f4fd;--dim:#a6aeb4;
   --amber:#ffb300;--amber2:#ff8c00;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -65,17 +65,17 @@ body::after{
   margin-bottom:.6rem;
 }
 .intro-sub{
-  font-family:'Orbitron',sans-serif;font-size:.7rem;
+  font-family:'Orbitron',sans-serif;font-size:.8rem;
   color:var(--cyan);letter-spacing:.2em;text-align:center;
   margin-bottom:2rem;opacity:.7;
 }
 .intro-desc{
-  font-size:.75rem;color:#8aa0b0;text-align:center;
+  font-size:.85rem;color:#95a2aa;text-align:center;
   max-width:480px;line-height:1.8;margin-bottom:2.5rem;
 }
 .intro-greek{
-  font-size:.6rem;letter-spacing:.4em;color:var(--gold2);
-  opacity:.5;margin-bottom:2.5rem;text-align:center;
+  font-size:.8rem;letter-spacing:.4em;color:var(--gold2);
+  margin-bottom:2.5rem;text-align:center;
 }
 
 /* BOTONES */
@@ -152,7 +152,7 @@ body::after{
 .nivel-card.novato .nivel-name{color:var(--green);}
 .nivel-card.guerra .nivel-name{color:var(--gold);}
 .nivel-card.sabio .nivel-name{color:var(--red);}
-.nivel-desc{font-size:.6rem;color:#6a7a8a;line-height:1.6;}
+.nivel-desc{font-size:.75rem;color:#6a7a8a;line-height:1.6;}
 .nivel-info{
   font-size:.55rem;color:var(--dim);margin-top:.5rem;
   letter-spacing:.1em;
@@ -189,7 +189,7 @@ body::after{
   transition:width .1s linear;
 }
 .q-num{
-  font-size:.55rem;color:var(--dim);letter-spacing:.2em;
+  font-size:.65rem;color:var(--dim);letter-spacing:.2em;
   margin-bottom:.6rem;width:100%;max-width:600px;
 }
 .q-text{
@@ -198,6 +198,7 @@ body::after{
   color:var(--white);line-height:1.7;
   margin-bottom:1.2rem;width:100%;max-width:600px;
   min-height:80px;
+  letter-spacing: 1.5px;
 }
 .opciones{
   display:flex;flex-direction:column;gap:.6rem;
@@ -206,7 +207,7 @@ body::after{
 .opcion{
   background:var(--bg2);border:1px solid #1a2a3a;
   padding:.75rem 1rem;cursor:pointer;
-  font-size:.7rem;color:#8aa0b0;line-height:1.5;
+  font-size:1rem;color:#bbc7cf;line-height:1.5;
   transition:all .15s;display:flex;align-items:flex-start;gap:.7rem;
   text-align:left;
 }
@@ -268,7 +269,7 @@ body::after{
   margin-bottom:.3rem;
   text-shadow:0 0 20px var(--gold2);
 }
-.res-player{font-size:.65rem;color:var(--cyan);text-align:center;margin-bottom:1.5rem;}
+.res-player{font-size:1rem;color:var(--cyan);text-align:center;margin-bottom:1.5rem;}
 .res-score-big{
   font-family:'Orbitron',sans-serif;font-weight:900;
   font-size:clamp(2rem,8vw,3.5rem);
@@ -291,9 +292,9 @@ body::after{
   font-family:'Orbitron',sans-serif;font-size:1rem;
   font-weight:700;color:var(--cyan);
 }
-.res-stat-lbl{font-size:.5rem;color:var(--dim);letter-spacing:.15em;margin-top:.2rem;}
+.res-stat-lbl{font-size:.7rem;color:var(--dim);letter-spacing:.15em;margin-top:.2rem;}
 .envio-status{
-  font-size:.55rem;color:var(--dim);text-align:center;
+  font-size:1rem;color:var(--dim);text-align:center;
   margin-bottom:.8rem;min-height:16px;letter-spacing:.1em;
 }
 .res-btns{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;}
@@ -329,7 +330,7 @@ body::after{
 
 <!-- ══ INTRO ══════════════════════════════════════════════ -->
 <div id="screen-intro" class="screen active">
-  <div class="intro-badge">⚡ Filosofía · 6.º Año · Esc. Amado Juri</div>
+  <div class="intro-badge">⚡ Filosofía · Año 2026 · Esc. Amado Juri</div>
   <div class="intro-title">Arché a la Metafísica<br>QUIZ</div>
   <div class="intro-sub">Del Arché a la Metafísica</div>
   <div class="intro-greek">ΑΡΧΗ · ΛΟΓΟΣ · ΕΙΔΟΣ · ΟΥΣΙΑ</div>
@@ -355,7 +356,7 @@ body::after{
     </div>
     <div>
       <div class="reg-label">// CURSO</div>
-      <input class="reg-input" id="reg-curso" type="text" placeholder="Ej: 6º A" maxlength="10">
+      <input class="reg-input" id="reg-curso" type="text" placeholder="Ej: 6" maxlength="10">
     </div>
     <button class="btn btn-primary" onclick="guardarRegistro()">CONTINUAR →</button>
     <div class="reg-hint">Tus datos se usan solo para el registro del quiz.</div>
@@ -654,7 +655,7 @@ function guardarRegistro(){
   jugador = {nombre:n, apellido:a, curso:c};
   localStorage.setItem('chronos_arche_jugador', JSON.stringify(jugador));
   document.getElementById('nivel-player-name').textContent =
-    `// ${n.toUpperCase()} ${a.toUpperCase()} · ${c.toUpperCase()}`;
+    `${n.toUpperCase()} ${a.toUpperCase()} · ${c.toUpperCase()}`;
   irA('screen-nivel');
 }
 
