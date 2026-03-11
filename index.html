@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>CHRONOS QUIZ — Del Arché a la Metafísica</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050a0e;--bg2:#0a1520;--bg3:#0f1e2e;
+  --gold:#ffb300;--gold2:#ff8c00;
+  --cyan:#00e5ff;--green:#00ff88;--red:#ff3b5c;
+  --purple:#b44fff;--white:#e8f4fd;--dim:#4a6070;
+  --amber:#ffb300;--amber2:#ff8c00;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;overflow:hidden;}
+body{
+  background:var(--bg);color:var(--white);
+  font-family:'Share Tech Mono',monospace;
+  position:relative;
+}
+body::before{
+  content:'';position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);
+  pointer-events:none;z-index:9999;
+}
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(0,229,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.02) 1px,transparent 1px);
+  background-size:40px 40px;pointer-events:none;z-index:0;
+}
+
+/* PARTÍCULAS */
+.particle{
+  position:fixed;width:4px;height:4px;border-radius:50%;
+  animation:rise linear forwards;pointer-events:none;z-index:1;
+}
+@keyframes rise{
+  0%{transform:translateY(100vh) scale(1);opacity:1;}
+  100%{transform:translateY(-10vh) scale(0);opacity:0;}
+}
+
+/* SCREENS */
+.screen{
+  position:fixed;inset:0;display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:1.5rem;z-index:10;overflow-y:auto;
+}
+.screen.active{display:flex;}
+
+/* ── INTRO ── */
+#screen-intro{background:radial-gradient(ellipse 80% 70% at 50% 40%, #0a1a2a 0%, var(--bg) 70%);}
+.intro-badge{
+  font-family:'Press Start 2P',monospace;font-size:0.45rem;
+  letter-spacing:.3em;color:var(--cyan);margin-bottom:1.5rem;
+  border:1px solid var(--cyan);padding:.4rem .8rem;
+  text-transform:uppercase;opacity:.8;
+}
+.intro-title{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(.85rem,3.5vw,1.3rem);
+  color:var(--gold);line-height:1.6;text-align:center;
+  text-shadow:0 0 30px var(--gold2),0 0 60px rgba(255,179,0,.3);
+  margin-bottom:.6rem;
+}
+.intro-sub{
+  font-family:'Orbitron',sans-serif;font-size:.7rem;
+  color:var(--cyan);letter-spacing:.2em;text-align:center;
+  margin-bottom:2rem;opacity:.7;
+}
+.intro-desc{
+  font-size:.75rem;color:#8aa0b0;text-align:center;
+  max-width:480px;line-height:1.8;margin-bottom:2.5rem;
+}
+.intro-greek{
+  font-size:.6rem;letter-spacing:.4em;color:var(--gold2);
+  opacity:.5;margin-bottom:2.5rem;text-align:center;
+}
+
+/* BOTONES */
+.btn{
+  font-family:'Orbitron',sans-serif;font-size:.65rem;
+  font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  border:none;cursor:pointer;padding:.85rem 2rem;
+  transition:all .15s;position:relative;overflow:hidden;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#000;
+}
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 20px var(--gold),0 0 40px rgba(255,179,0,.3);
+}
+.btn-primary:active{transform:translateY(0);}
+.btn-danger{background:linear-gradient(135deg,var(--red),#c0002a);color:#fff;}
+.btn-danger:hover{box-shadow:0 0 20px var(--red);}
+.btn-outline{
+  background:transparent;color:var(--cyan);
+  border:1px solid var(--cyan);
+}
+.btn-outline:hover{background:rgba(0,229,255,.1);}
+
+/* ── REGISTRO ── */
+#screen-registro{background:rgba(5,10,14,.97);}
+.reg-title{
+  font-family:'Press Start 2P',monospace;font-size:.7rem;
+  color:var(--gold);margin-bottom:2rem;text-align:center;
+  line-height:1.8;
+}
+.reg-form{display:flex;flex-direction:column;gap:1rem;width:100%;max-width:380px;}
+.reg-label{font-size:.6rem;color:var(--cyan);letter-spacing:.2em;margin-bottom:.3rem;}
+.reg-input{
+  background:var(--bg2);border:1px solid #1a2a3a;
+  color:var(--white);font-family:'Share Tech Mono',monospace;
+  font-size:.85rem;padding:.7rem .9rem;width:100%;
+  outline:none;transition:border-color .2s;
+}
+.reg-input:focus{border-color:var(--gold);}
+.reg-hint{font-size:.55rem;color:var(--dim);text-align:center;margin-top:.5rem;}
+
+/* ── NIVEL SELECTOR ── */
+#screen-nivel{background:radial-gradient(ellipse 80% 70% at 50% 40%, #0a1a2a 0%, var(--bg) 70%);}
+.nivel-title{
+  font-family:'Press Start 2P',monospace;font-size:.7rem;
+  color:var(--gold);margin-bottom:.5rem;text-align:center;line-height:1.8;
+}
+.nivel-player{font-size:.65rem;color:var(--cyan);margin-bottom:2rem;text-align:center;}
+.nivel-cards{display:flex;flex-direction:column;gap:1rem;width:100%;max-width:420px;}
+.nivel-card{
+  background:var(--bg2);border:1px solid #1a2a3a;
+  padding:1.2rem 1.5rem;cursor:pointer;
+  transition:all .2s;position:relative;overflow:hidden;
+}
+.nivel-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;transition:width .2s;
+}
+.nivel-card.novato::before{background:var(--green);}
+.nivel-card.guerra::before{background:var(--gold);}
+.nivel-card.sabio::before{background:var(--red);}
+.nivel-card:hover{transform:translateX(4px);}
+.nivel-card:hover.novato{border-color:var(--green);box-shadow:0 0 15px rgba(0,255,136,.15);}
+.nivel-card:hover.guerra{border-color:var(--gold);box-shadow:0 0 15px rgba(255,179,0,.15);}
+.nivel-card:hover.sabio{border-color:var(--red);box-shadow:0 0 15px rgba(255,59,92,.15);}
+.nivel-name{
+  font-family:'Orbitron',sans-serif;font-size:.65rem;
+  font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  margin-bottom:.4rem;
+}
+.nivel-card.novato .nivel-name{color:var(--green);}
+.nivel-card.guerra .nivel-name{color:var(--gold);}
+.nivel-card.sabio .nivel-name{color:var(--red);}
+.nivel-desc{font-size:.6rem;color:#6a7a8a;line-height:1.6;}
+.nivel-info{
+  font-size:.55rem;color:var(--dim);margin-top:.5rem;
+  letter-spacing:.1em;
+}
+
+/* ── JUEGO ── */
+#screen-juego{
+  background:var(--bg);justify-content:flex-start;
+  padding:1rem;
+}
+.hud{
+  width:100%;max-width:600px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:.8rem;
+}
+.hud-score{
+  font-family:'Orbitron',sans-serif;font-size:.7rem;
+  font-weight:900;color:var(--gold);
+}
+.hud-nivel{
+  font-size:.5rem;letter-spacing:.2em;color:var(--dim);
+  text-transform:uppercase;
+}
+.hud-combo{
+  font-family:'Press Start 2P',monospace;font-size:.5rem;
+  color:var(--purple);min-width:80px;text-align:right;
+}
+.timer-bar-wrap{
+  width:100%;max-width:600px;height:4px;
+  background:#0a1520;margin-bottom:1rem;position:relative;
+}
+.timer-bar{
+  height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));
+  transition:width .1s linear;
+}
+.q-num{
+  font-size:.55rem;color:var(--dim);letter-spacing:.2em;
+  margin-bottom:.6rem;width:100%;max-width:600px;
+}
+.q-text{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(.65rem,2.5vw,.85rem);
+  color:var(--white);line-height:1.7;
+  margin-bottom:1.2rem;width:100%;max-width:600px;
+  min-height:80px;
+}
+.opciones{
+  display:flex;flex-direction:column;gap:.6rem;
+  width:100%;max-width:600px;
+}
+.opcion{
+  background:var(--bg2);border:1px solid #1a2a3a;
+  padding:.75rem 1rem;cursor:pointer;
+  font-size:.7rem;color:#8aa0b0;line-height:1.5;
+  transition:all .15s;display:flex;align-items:flex-start;gap:.7rem;
+  text-align:left;
+}
+.opcion-letra{
+  font-family:'Orbitron',sans-serif;font-size:.6rem;
+  font-weight:700;color:var(--dim);min-width:16px;
+  flex-shrink:0;padding-top:1px;
+}
+.opcion:hover:not(.disabled){
+  border-color:var(--cyan);color:var(--white);
+  box-shadow:0 0 10px rgba(0,229,255,.1);
+}
+.opcion.correcta{
+  border-color:var(--green);color:var(--green);
+  background:rgba(0,255,136,.05);
+}
+.opcion.correcta .opcion-letra{color:var(--green);}
+.opcion.incorrecta{
+  border-color:var(--red);color:var(--red);
+  background:rgba(255,59,92,.05);
+}
+.opcion.incorrecta .opcion-letra{color:var(--red);}
+.opcion.disabled{cursor:default;}
+
+/* FEEDBACK */
+.feedback{
+  width:100%;max-width:600px;
+  font-size:.65rem;min-height:40px;margin-top:.6rem;
+  padding:.5rem .7rem;line-height:1.6;
+  border-left:3px solid transparent;
+  transition:all .3s;
+}
+.feedback.ok{border-color:var(--green);color:var(--green);background:rgba(0,255,136,.05);}
+.feedback.err{border-color:var(--red);color:var(--red);background:rgba(255,59,92,.05);}
+
+/* COMBO */
+.combo-popup{
+  position:fixed;top:30%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Press Start 2P',monospace;font-size:.7rem;
+  color:var(--purple);text-shadow:0 0 20px var(--purple);
+  pointer-events:none;z-index:9000;
+  animation:comboPop .6s ease forwards;
+}
+@keyframes comboPop{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.5);}
+  40%{opacity:1;transform:translate(-50%,-50%) scale(1.2);}
+  70%{opacity:1;transform:translate(-50%,-50%) scale(1);}
+  100%{opacity:0;transform:translate(-50%,-70%) scale(.9);}
+}
+
+/* ── RESULTADO ── */
+#screen-resultado{
+  background:radial-gradient(ellipse 80% 70% at 50% 30%, #0a1a2a 0%, var(--bg) 70%);
+}
+.res-title{
+  font-family:'Press Start 2P',monospace;
+  font-size:clamp(.6rem,2.5vw,.9rem);
+  color:var(--gold);text-align:center;line-height:1.8;
+  margin-bottom:.3rem;
+  text-shadow:0 0 20px var(--gold2);
+}
+.res-player{font-size:.65rem;color:var(--cyan);text-align:center;margin-bottom:1.5rem;}
+.res-score-big{
+  font-family:'Orbitron',sans-serif;font-weight:900;
+  font-size:clamp(2rem,8vw,3.5rem);
+  color:var(--gold);text-align:center;margin-bottom:.3rem;
+  text-shadow:0 0 30px var(--gold2);
+}
+.res-rank{
+  font-family:'Press Start 2P',monospace;font-size:.55rem;
+  text-align:center;margin-bottom:1.5rem;letter-spacing:.15em;
+}
+.res-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:.6rem;
+  width:100%;max-width:380px;margin-bottom:1.5rem;
+}
+.res-stat{
+  background:var(--bg2);border:1px solid #1a2a3a;
+  padding:.7rem;text-align:center;
+}
+.res-stat-val{
+  font-family:'Orbitron',sans-serif;font-size:1rem;
+  font-weight:700;color:var(--cyan);
+}
+.res-stat-lbl{font-size:.5rem;color:var(--dim);letter-spacing:.15em;margin-top:.2rem;}
+.envio-status{
+  font-size:.55rem;color:var(--dim);text-align:center;
+  margin-bottom:.8rem;min-height:16px;letter-spacing:.1em;
+}
+.res-btns{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;}
+
+/* PROGRESO PUNTITOS */
+.dots-row{
+  display:flex;gap:.3rem;justify-content:center;
+  margin-bottom:.8rem;width:100%;max-width:600px;
+}
+.dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--dim);transition:background .3s;
+}
+.dot.ok{background:var(--green);}
+.dot.err{background:var(--red);}
+.dot.cur{background:var(--gold);box-shadow:0 0 6px var(--gold);}
+
+/* RESPONSIVE */
+@media(max-width:420px){
+  .intro-title{font-size:.7rem;}
+  .q-text{font-size:.62rem;}
+  .opcion{font-size:.65rem;padding:.6rem .8rem;}
+  .res-score-big{font-size:2rem;}
+}
+
+/* SCROLL */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--dim);}
+</style>
+</head>
+<body>
+
+<!-- ══ INTRO ══════════════════════════════════════════════ -->
+<div id="screen-intro" class="screen active">
+  <div class="intro-badge">⚡ Filosofía · 6.º Año · Esc. Amado Juri</div>
+  <div class="intro-title">Arché a la Metafísica<br>QUIZ</div>
+  <div class="intro-sub">Del Arché a la Metafísica</div>
+  <div class="intro-greek">ΑΡΧΗ · ΛΟΓΟΣ · ΕΙΔΟΣ · ΟΥΣΙΑ</div>
+  <div class="intro-desc">
+    De Tales preguntando "¿de qué está hecho el mundo?"<br>
+    a Aristóteles preguntando "¿qué es el ser en cuanto ser?"<br>
+    Ponés a prueba tu conocimiento del pensamiento griego.
+  </div>
+  <button class="btn btn-primary" onclick="irA('screen-registro')">▶ COMENZAR</button>
+</div>
+
+<!-- ══ REGISTRO ══════════════════════════════════════════ -->
+<div id="screen-registro" class="screen">
+  <div class="reg-title">IDENTIFICACIÓN<br>DEL FILÓSOFO</div>
+  <div class="reg-form">
+    <div>
+      <div class="reg-label">// NOMBRE</div>
+      <input class="reg-input" id="reg-nombre" type="text" placeholder="Tu nombre" maxlength="30" autocomplete="given-name">
+    </div>
+    <div>
+      <div class="reg-label">// APELLIDO</div>
+      <input class="reg-input" id="reg-apellido" type="text" placeholder="Tu apellido" maxlength="30" autocomplete="family-name">
+    </div>
+    <div>
+      <div class="reg-label">// CURSO</div>
+      <input class="reg-input" id="reg-curso" type="text" placeholder="Ej: 6º A" maxlength="10">
+    </div>
+    <button class="btn btn-primary" onclick="guardarRegistro()">CONTINUAR →</button>
+    <div class="reg-hint">Tus datos se usan solo para el registro del quiz.</div>
+  </div>
+</div>
+
+<!-- ══ NIVEL ══════════════════════════════════════════════ -->
+<div id="screen-nivel" class="screen">
+  <div class="nivel-title">ELEGÍ TU<br>DIFICULTAD</div>
+  <div class="nivel-player" id="nivel-player-name"></div>
+  <div class="nivel-cards">
+    <div class="nivel-card novato" onclick="iniciarJuego('novato')">
+      <div class="nivel-name">⚡ NOVATO — Presocráticos</div>
+      <div class="nivel-desc">8 preguntas · 20 segundos cada una<br>Tales, Anaximandro, Anaxímenes, Heráclito, Parménides</div>
+      <div class="nivel-info">// DIFICULTAD BÁSICA · TIMER MODERADO</div>
+    </div>
+    <div class="nivel-card guerra" onclick="iniciarJuego('guerra')">
+      <div class="nivel-name">⚔ GUERRA — Sofistas y Sócrates</div>
+      <div class="nivel-desc">10 preguntas · 15 segundos cada una<br>Empédocles, Atomistas, Sofistas, Sócrates, Platón</div>
+      <div class="nivel-info">// DIFICULTAD MEDIA · TIMER AJUSTADO</div>
+    </div>
+    <div class="nivel-card sabio" onclick="iniciarJuego('sabio')">
+      <div class="nivel-name">🔥 SABIO — Aristóteles y Metafísica</div>
+      <div class="nivel-desc">10 preguntas · 10 segundos cada una<br>Platón, Aristóteles, Metafísica, conceptos avanzados</div>
+      <div class="nivel-info">// DIFICULTAD ALTA · TIMER EXIGENTE</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ JUEGO ══════════════════════════════════════════════ -->
+<div id="screen-juego" class="screen">
+  <div class="hud">
+    <div class="hud-score" id="hud-score">000</div>
+    <div class="hud-nivel" id="hud-nivel">NOVATO</div>
+    <div class="hud-combo" id="hud-combo"></div>
+  </div>
+  <div class="timer-bar-wrap">
+    <div class="timer-bar" id="timer-bar"></div>
+  </div>
+  <div class="dots-row" id="dots-row"></div>
+  <div class="q-num" id="q-num">PREGUNTA 1 / 8</div>
+  <div class="q-text" id="q-text"></div>
+  <div class="opciones" id="opciones"></div>
+  <div class="feedback" id="feedback"></div>
+</div>
+
+<!-- ══ RESULTADO ══════════════════════════════════════════ -->
+<div id="screen-resultado" class="screen">
+  <div class="res-title" id="res-title">RESULTADO FINAL</div>
+  <div class="res-player" id="res-player"></div>
+  <div class="res-score-big" id="res-score-big">0</div>
+  <div class="res-rank" id="res-rank"></div>
+  <div class="res-stats">
+    <div class="res-stat">
+      <div class="res-stat-val" id="res-correctas">0</div>
+      <div class="res-stat-lbl">CORRECTAS</div>
+    </div>
+    <div class="res-stat">
+      <div class="res-stat-val" id="res-pct">0%</div>
+      <div class="res-stat-lbl">PRECISIÓN</div>
+    </div>
+    <div class="res-stat">
+      <div class="res-stat-val" id="res-combo">x0</div>
+      <div class="res-stat-lbl">MAX COMBO</div>
+    </div>
+    <div class="res-stat">
+      <div class="res-stat-val" id="res-tiempo">0s</div>
+      <div class="res-stat-lbl">TIEMPO TOTAL</div>
+    </div>
+  </div>
+  <div class="envio-status" id="envio-status"></div>
+  <div class="res-btns">
+    <button class="btn btn-outline" onclick="irNivel()">↩ CAMBIAR NIVEL</button>
+    <button class="btn btn-primary" onclick="reiniciarMismoNivel()">↺ REPETIR</button>
+  </div>
+</div>
+
+<script>
+// ══ BANCO DE PREGUNTAS ══════════════════════════════════════════════════════
+const BANCO = {
+
+novato: [
+  {
+    p: "¿Quién es considerado el primer filósofo de la historia occidental?",
+    o: ["Sócrates de Atenas","Tales de Mileto","Platón de Atenas","Pitágoras de Samos"],
+    c: 1,
+    exp: "Tales de Mileto (c. 624–546 a.C.) inauguró la filosofía al buscar una explicación racional del cosmos, abandonando el mito."
+  },
+  {
+    p: "¿Cuál era el arché (principio de todo) según Tales de Mileto?",
+    o: ["El fuego","El aire","El agua","La tierra"],
+    c: 2,
+    exp: "Tales propuso el agua como sustancia fundamental: observó que la humedad es necesaria para toda vida y que los alimentos tienen jugos."
+  },
+  {
+    p: "¿Qué significa la palabra griega 'arché'?",
+    o: ["Dios creador","Principio o fundamento de todo","Gobierno político","Escritura sagrada"],
+    c: 1,
+    exp: "Arché (ἀρχή) significa principio, origen o fundamento: aquello de lo que todo está hecho y a lo que todo vuelve."
+  },
+  {
+    p: "¿Cuál era el arché propuesto por Anaxímenes de Mileto?",
+    o: ["El vacío","El número","El agua","El aire"],
+    c: 3,
+    exp: "Anaxímenes propuso el aire y añadió el mecanismo: por condensación se forma agua y tierra; por rarificación, fuego."
+  },
+  {
+    p: "¿Qué filósofo propuso el 'ápeiron' (lo indefinido) como arché?",
+    o: ["Tales","Heráclito","Anaximandro","Empédocles"],
+    c: 2,
+    exp: "Anaximandro argumentó que el principio no puede tener naturaleza particular: debe ser lo 'indefinido' (ápeiron) para poder generar todo lo demás."
+  },
+  {
+    p: "Para Heráclito, ¿cuál era el arché y símbolo del cambio constante?",
+    o: ["El agua","El fuego","La tierra","El viento"],
+    c: 1,
+    exp: "Heráclito eligió el fuego: nunca es el mismo, siempre cambia, y simboliza que la realidad es puro devenir ('panta rei': todo fluye)."
+  },
+  {
+    p: "¿Cuál es la tesis central de Parménides sobre el ser?",
+    o: ["El ser cambia constantemente","El ser es uno, eterno e inmóvil","El ser está formado por átomos","El ser depende de quien lo percibe"],
+    c: 1,
+    exp: "Parménides afirmó: 'El ser es, el no-ser no es.' El verdadero ser es uno, eterno, inmóvil y no cambia. El cambio es mera ilusión de los sentidos."
+  },
+  {
+    p: "¿Qué filósofo dijo que 'una vida sin examen no merece ser vivida'?",
+    o: ["Platón","Aristóteles","Sócrates","Tales"],
+    c: 2,
+    exp: "Sócrates pronunció estas palabras en su juicio (Apología de Sócrates, 38a). Para él, el autoexamen y la búsqueda de la verdad eran el sentido de la vida."
+  }
+],
+
+guerra: [
+  {
+    p: "¿Cuántos elementos eternos propuso Empédocles como principios del universo?",
+    o: ["Dos: fuego y agua","Tres: tierra, agua, aire","Cuatro: tierra, agua, fuego, aire","Cinco: tierra, agua, fuego, aire y éter"],
+    c: 2,
+    exp: "Empédocles propuso cuatro 'raíces' (rizómata): tierra, agua, fuego y aire. El cambio es mezcla y separación de estos elementos en distintas proporciones."
+  },
+  {
+    p: "¿Qué dos fuerzas cósmicas mueven los elementos según Empédocles?",
+    o: ["Logos y Caos","Amor (Philia) y Odio (Neikos)","Nous y Ananké","Fuego y Agua"],
+    c: 1,
+    exp: "Para Empédocles, el Amor (Philia) une los elementos y el Odio (Neikos) los separa. Estas fuerzas se alternan cíclicamente dominando el universo."
+  },
+  {
+    p: "¿Qué propuso Anaxágoras como principio ordenador del universo?",
+    o: ["El logos","El ápeiron","El Nous (Mente cósmica)","El vacío"],
+    c: 2,
+    exp: "Anaxágoras propuso el Nous: una Mente infinita, pura y separada, que puso en movimiento el caos original y ordena el cosmos."
+  },
+  {
+    p: "¿Cómo eran los átomos según Demócrito?",
+    o: ["Divisibles y mutables","Hechos de agua y fuego","Invisibles, indivisibles y eternos","Formados por ideas puras"],
+    c: 2,
+    exp: "Los átomos (ἄτομος = indivisible) son partículas invisibles, eternas, sólidas, indivisibles e inmutables. Solo difieren en forma, tamaño y posición."
+  },
+  {
+    p: "¿Qué afirma Protágoras con 'el hombre es la medida de todas las cosas'?",
+    o: ["El hombre es el ser más importante del universo","La verdad depende de la percepción de cada persona","Los dioses no existen","Solo los sabios pueden conocer la verdad"],
+    c: 1,
+    exp: "Es la tesis del relativismo: no hay verdad objetiva universal. Si el viento te parece frío y a mí templado, ambos tenemos razón. El individuo es la medida."
+  },
+  {
+    p: "¿Cuáles son las dos fases del método de Sócrates (la mayéutica)?",
+    o: ["Observación y conclusión","Ironía socrática (revelar ignorancia) y mayéutica (hacer parir la verdad)","Pregunta y respuesta directa","Mito y razón"],
+    c: 1,
+    exp: "Primero la ironía: demostrar que el interlocutor no sabe lo que cree saber. Luego la mayéutica: ayudarlo a dar a luz la verdad que ya lleva dentro."
+  },
+  {
+    p: "¿Cuáles fueron los cargos del juicio a Sócrates (399 a.C.)?",
+    o: ["Traición y espionaje","No creer en los dioses del Estado y corromper a la juventud","Robo y asesinato","Enseñar sin permiso oficial"],
+    c: 1,
+    exp: "Sócrates fue juzgado por impiedad (no creer en los dioses de la polis) y por corromper a la juventud con sus ideas. Fue condenado a beber cicuta."
+  },
+  {
+    p: "En la alegoría de la caverna de Platón, ¿qué representan las sombras en la pared?",
+    o: ["El mundo de las Ideas","La verdad absoluta","Las apariencias del mundo sensible","Los recuerdos del alma"],
+    c: 2,
+    exp: "Las sombras representan las apariencias en las que vivimos: el mundo sensible percibido por los sentidos, que es solo un reflejo imperfecto del mundo verdadero de las Ideas."
+  },
+  {
+    p: "¿Qué es la anamnesis en la teoría del conocimiento de Platón?",
+    o: ["La memorización de textos filosóficos","El aprendizaje es recuerdo: el alma conoció las Ideas antes de nacer","El olvido como condición del conocimiento","La observación sistemática de la naturaleza"],
+    c: 1,
+    exp: "Para Platón el alma es inmortal y preexiste al cuerpo, donde contempló las Ideas. Al nacer 'olvida'. Aprender es recordar (anámnesis) lo que el alma ya sabe."
+  },
+  {
+    p: "¿Quién dijo 'Nada existe; si algo existiera, no podría conocerse; si pudiera conocerse, no podría comunicarse'?",
+    o: ["Parménides","Protágoras","Heráclito","Gorgias de Leontinos"],
+    c: 3,
+    exp: "Gorgias llevó el escepticismo al extremo: tres tesis nihilistas sobre la realidad, el conocimiento y el lenguaje. Para él, el lenguaje no transmite verdad, solo persuade."
+  }
+],
+
+sabio: [
+  {
+    p: "¿Cuál es el argumento del 'tercer hombre' con el que Aristóteles critica a Platón?",
+    o: ["Que los hombres son superiores a las Ideas","Si el caballo real se explica por la Idea de Caballo, la relación entre ambos necesita una tercera entidad, y así al infinito","Que solo tres hombres sabios pueden conocer las Ideas","Que Platón copió la teoría de los átomos"],
+    c: 1,
+    exp: "Aristóteles muestra que el 'mundo de las Ideas' genera una regresión infinita de entidades explicativas. Las Ideas no explican nada: son entidades innecesarias."
+  },
+  {
+    p: "¿Cómo define Aristóteles la diferencia entre 'potencia' y 'acto'?",
+    o: ["Potencia es fuerza física; acto es movimiento","Potencia es lo que algo puede llegar a ser; acto es lo que ya es","Potencia es el pasado; acto es el presente","Potencia es la materia; acto es la forma"],
+    c: 1,
+    exp: "Una semilla es en potencia un árbol. El árbol adulto es el acto de lo que la semilla era en potencia. El cambio es el tránsito de la potencia al acto."
+  },
+  {
+    p: "¿Cuáles son las cuatro causas de Aristóteles para explicar cualquier cosa?",
+    o: ["Temporal, espacial, formal y final","Material (de qué está hecho), formal (qué forma tiene), eficiente (quién lo hizo) y final (para qué)","Física, química, biológica y filosófica","Primera, segunda, tercera y cuarta"],
+    c: 1,
+    exp: "Para una estatua: causa material = el mármol; formal = la figura de Zeus; eficiente = el escultor; final = la adoración. Las cuatro causas explican completamente un ente."
+  },
+  {
+    p: "¿Qué es el 'Motor Inmóvil' en la metafísica de Aristóteles?",
+    o: ["El primer ser humano","La causa primera que mueve todo sin ser ella misma movida por nada","El átomo más pequeño","La Idea del Bien de Platón"],
+    c: 1,
+    exp: "Aristóteles razona que la cadena de causas debe tener un primer eslabón. El Motor Inmóvil mueve por ser objeto de deseo y amor, sin moverse él mismo. Es el principio supremo."
+  },
+  {
+    p: "¿Qué significa 'ousia' (sustancia) en la metafísica de Aristóteles?",
+    o: ["La materia de la que algo está hecho","Lo que hace que algo sea lo que es: su identidad propia e individual","El alma que anima un cuerpo","El lugar que ocupa un objeto"],
+    c: 1,
+    exp: "Ousia (οὐσία) es lo que hace que este caballo particular sea un caballo. Aristóteles distingue sustancia primera (el individuo concreto) de sustancia segunda (la especie)."
+  },
+  {
+    p: "¿Qué significa la frase de Aristóteles 'Amicus Plato, sed magis amica veritas'?",
+    o: ["Platón es mi amigo, pero más amiga es la verdad","Solo un amigo puede enseñarte la verdad","Platón descubrió la verdad definitiva","La amistad es más valiosa que el conocimiento"],
+    c: 0,
+    exp: "Con esta frase Aristóteles afirma que respeta a Platón como maestro, pero cuando la verdad exige contradecirlo, la verdad tiene precedencia sobre la lealtad personal."
+  },
+  {
+    p: "¿Qué es la 'eudaimonía' según Aristóteles?",
+    o: ["El placer sensorial máximo","La fama y el reconocimiento social","La felicidad como plenitud: la actividad del alma conforme a la virtud","La riqueza material abundante"],
+    c: 2,
+    exp: "Eudaimonía no es placer ni riqueza: es la plenitud de las capacidades propias, vivir y actuar conforme a la virtud. El ser humano la alcanza en la polis, en comunidad."
+  },
+  {
+    p: "¿Qué significa que Aristóteles llama al ser humano 'zōon politikón' (animal político)?",
+    o: ["Que el hombre es naturalmente violento","Que el hombre solo puede realizarse plenamente en comunidad (la polis)","Que el hombre debe obedecer al Estado","Que el hombre es un animal más entre otros"],
+    c: 1,
+    exp: "Para Aristóteles, el hombre solo puede alcanzar la eudaimonía dentro de la polis. Fuera de ella no sería un hombre completo: sería una bestia o un dios."
+  },
+  {
+    p: "¿Qué es el 'telos' en la filosofía de Aristóteles?",
+    o: ["El inicio de todas las cosas","El fin o propósito natural hacia el que tiende cada ser","La materia de la que está hecho algo","El tiempo infinito"],
+    c: 1,
+    exp: "Telos (τέλος) es la causa final: el fin natural de cada cosa. La bellota tiene como telos ser roble. El ojo tiene como telos ver. Todo en la naturaleza tiene un propósito."
+  },
+  {
+    p: "¿Cuál es la diferencia fundamental entre Platón y Aristóteles respecto a las Ideas (formas)?",
+    o: ["Platón no creía en las Ideas","Para Platón las Ideas existen separadas del mundo; para Aristóteles la forma existe en las cosas mismas","Para Aristóteles las Ideas son más importantes","No hay diferencia: Aristóteles copió a Platón"],
+    c: 1,
+    exp: "Platón ubica las Ideas en un mundo separado, trascendente. Aristóteles las 'devuelve a la tierra': la forma (eidos) existe inmanente en la materia concreta de cada cosa."
+  }
+]
+
+};
+
+// ══ ESTADO ═══════════════════════════════════════════════════════════════════
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxHuPBB9MW0pMXNh-i8m48T3DFULKKAMxdu6lzkYRPO20JSPp4OCInpMrKDWrzDhHnN/exec';
+
+// ── IDENTIFICACIÓN DEL QUIZ ──────────────────────────────
+const QUIZ_TEMA   = 2;
+const QUIZ_UNIDAD = 1;
+
+let jugador = { nombre:'', apellido:'', curso:'' };
+let nivelActual = '';
+let preguntas = [];
+let qIdx = 0;
+let score = 0;
+let combo = 0;
+let maxCombo = 0;
+let correctas = 0;
+let cntAgotado = 0;
+let timerInterval = null;
+let timerSeg = 0;
+let tiempoInicio = null;
+let tiempoTotal = 0;
+const TIEMPOS = { novato:20, guerra:15, sabio:10 };
+const PUNTOS_BASE = { novato:100, guerra:150, sabio:200 };
+let respuestas = [];
+
+// ══ NAVEGACIÓN ══════════════════════════════════════════════════════════════
+function irA(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function guardarRegistro(){
+  const n = document.getElementById('reg-nombre').value.trim();
+  const a = document.getElementById('reg-apellido').value.trim();
+  const c = document.getElementById('reg-curso').value.trim();
+  if(!n||!a||!c){ alert('Completá todos los campos.'); return; }
+  jugador = {nombre:n, apellido:a, curso:c};
+  localStorage.setItem('chronos_arche_jugador', JSON.stringify(jugador));
+  document.getElementById('nivel-player-name').textContent =
+    `// ${n.toUpperCase()} ${a.toUpperCase()} · ${c.toUpperCase()}`;
+  irA('screen-nivel');
+}
+
+function irNivel(){
+  clearInterval(timerInterval);
+  irA('screen-nivel');
+}
+function reiniciarMismoNivel(){ iniciarJuego(nivelActual); }
+
+// ══ JUEGO ════════════════════════════════════════════════════════════════════
+function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+
+function iniciarJuego(nivel){
+  nivelActual = nivel;
+  preguntas = shuffle(BANCO[nivel]);
+  qIdx = 0; score = 0; combo = 0; maxCombo = 0; correctas = 0; cntAgotado = 0; respuestas = [];
+  tiempoInicio = Date.now();
+  document.getElementById('hud-nivel').textContent = nivel.toUpperCase();
+  actualizarScore();
+  renderDots();
+  irA('screen-juego');
+  mostrarPregunta();
+}
+
+function renderDots(){
+  const row = document.getElementById('dots-row');
+  row.innerHTML = '';
+  preguntas.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'dot' + (i===0?' cur':'');
+    d.id = 'dot-'+i;
+    row.appendChild(d);
+  });
+}
+
+function actualizarDot(idx, tipo){
+  const d = document.getElementById('dot-'+idx);
+  if(!d) return;
+  d.className = 'dot ' + tipo;
+  const next = document.getElementById('dot-'+(idx+1));
+  if(next) next.className = 'dot cur';
+}
+
+function mostrarPregunta(){
+  clearInterval(timerInterval);
+  const q = preguntas[qIdx];
+  const total = preguntas.length;
+  document.getElementById('q-num').textContent = `PREGUNTA ${qIdx+1} / ${total}`;
+  document.getElementById('q-text').textContent = q.p;
+  document.getElementById('feedback').textContent='';
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('hud-combo').textContent = combo>1?`x${combo} COMBO`:'';
+
+  const letras = ['A','B','C','D'];
+  const cont = document.getElementById('opciones');
+  cont.innerHTML='';
+  q.o.forEach((op,i)=>{
+    const div = document.createElement('div');
+    div.className='opcion';
+    div.innerHTML=`<span class="opcion-letra">${letras[i]}</span><span>${op}</span>`;
+    div.onclick=()=>responder(i,div);
+    cont.appendChild(div);
+  });
+
+  iniciarTimer();
+}
+
+function iniciarTimer(){
+  const seg = TIEMPOS[nivelActual];
+  timerSeg = seg;
+  const bar = document.getElementById('timer-bar');
+  bar.style.width='100%';
+  bar.style.background='linear-gradient(90deg,var(--cyan),var(--green))';
+
+  timerInterval = setInterval(()=>{
+    timerSeg -= .1;
+    const pct = Math.max(0,(timerSeg/seg)*100);
+    bar.style.width = pct+'%';
+    if(pct < 30) bar.style.background='linear-gradient(90deg,var(--gold2),var(--red))';
+    else if(pct < 60) bar.style.background='linear-gradient(90deg,var(--gold),var(--gold2))';
+    if(timerSeg <= 0){
+      clearInterval(timerInterval);
+      tiempoAgotado();
+    }
+  },100);
+}
+
+function tiempoAgotado(){
+  deshabilitarOpciones();
+  combo = 0;
+  cntAgotado++;
+  document.getElementById('hud-combo').textContent='';
+  const q = preguntas[qIdx];
+  mostrarFeedback(false, `⏱ TIEMPO AGOTADO — ${q.exp}`);
+  actualizarDot(qIdx,'err');
+  respuestas.push({ok:false,tiempo:TIEMPOS[nivelActual]});
+  setTimeout(()=>avanzar(), 2200);
+}
+
+function responder(idx, el){
+  clearInterval(timerInterval);
+  deshabilitarOpciones();
+  const q = preguntas[qIdx];
+  const tiempoUsado = TIEMPOS[nivelActual] - timerSeg;
+  const esCorrecto = idx === q.c;
+
+  document.querySelectorAll('.opcion')[q.c].classList.add('correcta');
+  if(!esCorrecto) el.classList.add('incorrecta');
+
+  if(esCorrecto){
+    correctas++;
+    combo++;
+    if(combo>maxCombo) maxCombo=combo;
+    const bonusTiempo = Math.round((timerSeg/TIEMPOS[nivelActual])*50);
+    const bonusCombo = combo>1 ? Math.round(PUNTOS_BASE[nivelActual]*0.2*(combo-1)) : 0;
+    const pts = PUNTOS_BASE[nivelActual] + bonusTiempo + bonusCombo;
+    score += pts;
+    actualizarScore();
+    if(combo>=3) showCombo(`🔥 x${combo} COMBO! +${pts}`);
+    crearParticulas(combo>=3?'#b44fff':'#00ff88',combo>=3?12:6);
+    mostrarFeedback(true, `+${pts} pts · ${q.exp}`);
+    actualizarDot(qIdx,'ok');
+  } else {
+    combo=0;
+    document.getElementById('hud-combo').textContent='';
+    mostrarFeedback(false, `✗ INCORRECTO — ${q.exp}`);
+    actualizarDot(qIdx,'err');
+  }
+
+  respuestas.push({ok:esCorrecto,tiempo:tiempoUsado.toFixed(1)});
+  setTimeout(()=>avanzar(), esCorrecto?1600:2400);
+}
+
+function deshabilitarOpciones(){
+  document.querySelectorAll('.opcion').forEach(o=>o.classList.add('disabled'));
+}
+
+function mostrarFeedback(ok, txt){
+  const fb = document.getElementById('feedback');
+  fb.textContent = txt;
+  fb.className = 'feedback ' + (ok?'ok':'err');
+}
+
+function actualizarScore(){
+  document.getElementById('hud-score').textContent =
+    String(score).padStart(6,'0');
+}
+
+function avanzar(){
+  qIdx++;
+  if(qIdx < preguntas.length) mostrarPregunta();
+  else finJuego();
+}
+
+function finJuego(){
+  tiempoTotal = Math.round((Date.now()-tiempoInicio)/1000);
+  const total = preguntas.length;
+  const pct = Math.round((correctas/total)*100);
+
+  let rango, color;
+  if(pct>=90){rango='⚡ MAESTRO SOCRÁTICO';color=var_css('--gold');}
+  else if(pct>=70){rango='📚 FILÓSOFO HELENÍSTICO';color=var_css('--green');}
+  else if(pct>=50){rango='🏛 DISCÍPULO DE LA ACADEMIA';color=var_css('--cyan');}
+  else{rango='💡 INICIADO EN EL LOGOS';color=var_css('--dim');}
+
+  document.getElementById('res-title').textContent='QUIZ COMPLETADO';
+  document.getElementById('res-player').textContent =
+    `${jugador.nombre} ${jugador.apellido} · ${jugador.curso}`;
+  document.getElementById('res-score-big').textContent = score.toLocaleString();
+  document.getElementById('res-rank').style.color = color;
+  document.getElementById('res-rank').textContent = rango;
+  document.getElementById('res-correctas').textContent = `${correctas}/${total}`;
+  document.getElementById('res-pct').textContent = `${pct}%`;
+  document.getElementById('res-combo').textContent = `x${maxCombo}`;
+  document.getElementById('res-tiempo').textContent = `${tiempoTotal}s`;
+
+  irA('screen-resultado');
+  enviarResultado(pct,rango);
+}
+
+function var_css(v){ return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+
+// ══ ENVÍO RESULTADOS ═════════════════════════════════════════════════════════
+function enviarResultado(pct, rango){
+  const st = document.getElementById('envio-status');
+  st.textContent = '⟳ ENVIANDO RESULTADOS...';
+  const total       = preguntas.length;
+  const incorrectas = total - correctas - cntAgotado;
+  const UMBRAL      = { novato:60, guerra:70, sabio:80 };
+  const pctAprobacion = UMBRAL[nivelActual] ?? 60;
+  const aprobado    = pct >= pctAprobacion ? 'SÍ' : 'NO';
+
+  const payload = {
+    nombre      : jugador.nombre,
+    apellido    : jugador.apellido,
+    curso       : jugador.curso,
+    nivel       : nivelActual.toUpperCase(),
+    score,
+    precision   : pct,
+    pctAprobacion,
+    aprobado,
+    correctas,
+    incorrectas,
+    tiempoAgotado : cntAgotado,
+    maxCombo,
+    tiempoTotal,
+    rango,
+    quiz        : 'Arché a la Metafísica',
+    unidad      : QUIZ_UNIDAD,
+    tema        : QUIZ_TEMA,
+    timestamp   : new Date().toLocaleString('es-AR')
+  };
+  fetch(GAS_URL, {
+    method:'POST',
+    body: JSON.stringify(payload)
+  })
+  .then(r=>r.json())
+  .then(()=>{ st.textContent='✓ RESULTADO REGISTRADO'; })
+  .catch(()=>{ st.textContent='— Sin conexión · Resultado local'; });
+}
+
+// ══ EFECTOS ══════════════════════════════════════════════════════════════════
+function showCombo(txt){
+  const el = document.createElement('div');
+  el.className='combo-popup';
+  el.textContent=txt;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),1400);
+}
+
+function crearParticulas(color, n){
+  for(let i=0;i<n;i++) setTimeout(()=>{
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*100+'vw';
+    p.style.background=color;
+    p.style.boxShadow=`0 0 6px ${color}`;
+    p.style.animationDuration=(2+Math.random()*3)+'s';
+    p.style.animationDelay=Math.random()*0.4+'s';
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),5000);
+  }, i*80);
+}
+
+// ══ INIT ═════════════════════════════════════════════════════════════════════
+(function init(){
+  const d = JSON.parse(localStorage.getItem('chronos_arche_jugador')||'null');
+  if(d && d.nombre){
+    jugador=d;
+    document.getElementById('nivel-player-name').textContent =
+      `// ${d.nombre.toUpperCase()} ${d.apellido.toUpperCase()} · ${d.curso.toUpperCase()}`;
+    document.getElementById('reg-nombre').value=d.nombre;
+    document.getElementById('reg-apellido').value=d.apellido;
+    document.getElementById('reg-curso').value=d.curso;
+    irA('screen-intro');
+  }
+})();
+</script>
+</body>
+</html>
