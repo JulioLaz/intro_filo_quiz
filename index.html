@@ -367,6 +367,7 @@ body::after{
 <div id="screen-nivel" class="screen">
   <div class="nivel-title">ELEGÍ TU<br>DIFICULTAD</div>
   <div class="nivel-player" id="nivel-player-name"></div>
+  <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--gold);letter-spacing:.12em;text-align:center;margin-bottom:.8rem;border:1px solid var(--gold2);padding:.5rem 1rem;opacity:.85;">⚠ DEBÉS COMPLETAR LOS 3 NIVELES PARA REGISTRAR TU CALIFICACIÓN</div>
   <div class="nivel-cards">
     <div class="nivel-card novato" onclick="iniciarJuego('novato')">
       <div class="nivel-name">⚡ NOVATO — Presocráticos</div>
@@ -510,25 +511,25 @@ guerra: [
   },
   {
     p: "¿Cómo eran los átomos según Demócrito?",
-    o: ["Divisibles y mutables","Hechos de agua y fuego","Invisibles, indivisibles y eternos","Formados por ideas puras"],
+    o: ["Divisibles, variables y sujetos al cambio","Compuestos por mezcla de agua y fuego","Invisibles, indivisibles y eternos","Visibles, divisibles y formados por ideas"],
     c: 2,
     exp: "Los átomos (ἄτομος = indivisible) son partículas invisibles, eternas, sólidas, indivisibles e inmutables. Solo difieren en forma, tamaño y posición."
   },
   {
     p: "¿Qué afirma Protágoras con 'el hombre es la medida de todas las cosas'?",
-    o: ["El hombre es el ser más importante del universo","La verdad depende de la percepción de cada persona","Los dioses no existen","Solo los sabios pueden conocer la verdad"],
+    o: ["El ser humano domina y define la realidad que lo rodea","La verdad depende de la percepción de cada persona","Los dioses no existen y todo lo crea la mente humana","Solo los filósofos sabios pueden acceder a la verdad"],
     c: 1,
     exp: "Es la tesis del relativismo: no hay verdad objetiva universal. Si el viento te parece frío y a mí templado, ambos tenemos razón. El individuo es la medida."
   },
   {
     p: "¿Cuáles son las dos fases del método de Sócrates (la mayéutica)?",
-    o: ["Observación y conclusión","Ironía socrática (revelar ignorancia) y mayéutica (hacer parir la verdad)","Pregunta y respuesta directa","Mito y razón"],
+    o: ["Inducción sistemática que va de casos particulares a lo universal","Ironía socrática (revelar ignorancia) y mayéutica (hacer parir la verdad)","Diálogo directo entre maestro y alumno hasta alcanzar una conclusión","Narración mítica seguida de una interpretación filosófica final"],
     c: 1,
     exp: "Primero la ironía: demostrar que el interlocutor no sabe lo que cree saber. Luego la mayéutica: ayudarlo a dar a luz la verdad que ya lleva dentro."
   },
   {
     p: "¿Cuáles fueron los cargos del juicio a Sócrates (399 a.C.)?",
-    o: ["Traición y espionaje","No creer en los dioses del Estado y corromper a la juventud","Robo y asesinato","Enseñar sin permiso oficial"],
+    o: ["Traicionar a Atenas colaborando con los espartanos","No creer en los dioses del Estado y corromper a la juventud","Robar fondos del tesoro sagrado del templo de Atenea","Cobrar dinero por sus enseñanzas en la plaza pública"],
     c: 1,
     exp: "Sócrates fue juzgado por impiedad (no creer en los dioses de la polis) y por corromper a la juventud con sus ideas. Fue condenado a beber cicuta."
   },
@@ -540,7 +541,7 @@ guerra: [
   },
   {
     p: "¿Qué es la anamnesis en la teoría del conocimiento de Platón?",
-    o: ["La memorización de textos filosóficos","El aprendizaje es recuerdo: el alma conoció las Ideas antes de nacer","El olvido como condición del conocimiento","La observación sistemática de la naturaleza"],
+    o: ["La práctica constante de memorizar y repetir textos del maestro","El aprendizaje es recuerdo: el alma conoció las Ideas antes de nacer","El proceso de olvidar lo previo para estar abierto al conocimiento","La observación metódica de la naturaleza para descubrir sus leyes"],
     c: 1,
     exp: "Para Platón el alma es inmortal y preexiste al cuerpo, donde contempló las Ideas. Al nacer 'olvida'. Aprender es recordar (anámnesis) lo que el alma ya sabe."
   },
@@ -555,7 +556,7 @@ guerra: [
 sabio: [
   {
     p: "¿Cuál es el argumento del 'tercer hombre' con el que Aristóteles critica a Platón?",
-    o: ["Que los hombres son superiores a las Ideas","Si el caballo real se explica por la Idea de Caballo, la relación entre ambos necesita una tercera entidad, y así al infinito","Que solo tres hombres sabios pueden conocer las Ideas","Que Platón copió la teoría de los átomos"],
+    o: ["Que entre lo sensible y su Idea siempre hay un tercer ser superior que los une","Si el caballo real se explica por la Idea de Caballo, la relación entre ambos necesita una tercera entidad, y así al infinito","Que para conocer una Idea hacen falta tres hombres: el que percibe, el que razona y el sabio","Que Platón tomó la teoría de las Formas directamente del atomismo de Demócrito"],
     c: 1,
     exp: "Aristóteles muestra que el 'mundo de las Ideas' genera una regresión infinita de entidades explicativas. Las Ideas no explican nada: son entidades innecesarias."
   },
@@ -567,19 +568,19 @@ sabio: [
   },
   {
     p: "¿Cuáles son las cuatro causas de Aristóteles para explicar cualquier cosa?",
-    o: ["Temporal, espacial, formal y final","Material (de qué está hecho), formal (qué forma tiene), eficiente (quién lo hizo) y final (para qué)","Física, química, biológica y filosófica","Primera, segunda, tercera y cuarta"],
+    o: ["Temporal (cuándo), espacial (dónde), formal (cómo) y final (para qué sirve)","Material (de qué está hecho), formal (qué forma tiene), eficiente (quién lo hizo) y final (para qué)","Física (naturaleza), química (composición), biológica (vida) y filosófica (esencia)","Primera causa, segunda causa, tercera causa y causa última o suprema del ser"],
     c: 1,
     exp: "Para una estatua: causa material = el mármol; formal = la figura de Zeus; eficiente = el escultor; final = la adoración. Las cuatro causas explican completamente un ente."
   },
   {
     p: "¿Qué es el 'Motor Inmóvil' en la metafísica de Aristóteles?",
-    o: ["El primer ser humano","La causa primera que mueve todo sin ser ella misma movida por nada","El átomo más pequeño","La Idea del Bien de Platón"],
+    o: ["El ser humano primitivo que inició el primer movimiento del cosmos","La causa primera que mueve todo sin ser ella misma movida por nada","El átomo primordial más pequeño e indivisible que existe en la naturaleza","La Idea del Bien de Platón, principio supremo del mundo inteligible"],
     c: 1,
     exp: "Aristóteles razona que la cadena de causas debe tener un primer eslabón. El Motor Inmóvil mueve por ser objeto de deseo y amor, sin moverse él mismo. Es el principio supremo."
   },
   {
     p: "¿Qué significa 'ousia' (sustancia) en la metafísica de Aristóteles?",
-    o: ["La materia de la que algo está hecho","Lo que hace que algo sea lo que es: su identidad propia e individual","El alma que anima un cuerpo","El lugar que ocupa un objeto"],
+    o: ["La materia concreta de la que está compuesta una cosa determinada","Lo que hace que algo sea lo que es: su identidad propia e individual","El alma que da vida y movimiento a un cuerpo particular","El lugar físico que un objeto ocupa en el espacio y en el tiempo"],
     c: 1,
     exp: "Ousia (οὐσία) es lo que hace que este caballo particular sea un caballo. Aristóteles distingue sustancia primera (el individuo concreto) de sustancia segunda (la especie)."
   },
@@ -591,13 +592,13 @@ sabio: [
   },
   {
     p: "¿Qué es la 'eudaimonía' según Aristóteles?",
-    o: ["El placer sensorial máximo","La fama y el reconocimiento social","La felicidad como plenitud: la actividad del alma conforme a la virtud","La riqueza material abundante"],
+    o: ["El placer sensorial más intenso que el cuerpo puede experimentar","La fama y el reconocimiento social obtenidos por grandes hazañas","La felicidad como plenitud: la actividad del alma conforme a la virtud","La riqueza material acumulada a lo largo de toda una vida exitosa"],
     c: 2,
     exp: "Eudaimonía no es placer ni riqueza: es la plenitud de las capacidades propias, vivir y actuar conforme a la virtud. El ser humano la alcanza en la polis, en comunidad."
   },
   {
     p: "¿Qué significa que Aristóteles llama al ser humano 'zōon politikón' (animal político)?",
-    o: ["Que el hombre es naturalmente violento","Que el hombre solo puede realizarse plenamente en comunidad (la polis)","Que el hombre debe obedecer al Estado","Que el hombre es un animal más entre otros"],
+    o: ["Que el hombre es por naturaleza agresivo y necesita ser dominado","Que el hombre solo puede realizarse plenamente en comunidad (la polis)","Que el hombre tiene el deber moral de obedecer siempre al Estado","Que el hombre es biológicamente idéntico a cualquier otro animal"],
     c: 1,
     exp: "Para Aristóteles, el hombre solo puede alcanzar la eudaimonía dentro de la polis. Fuera de ella no sería un hombre completo: sería una bestia o un dios."
   },
@@ -609,7 +610,7 @@ sabio: [
   },
   {
     p: "¿Cuál es la diferencia fundamental entre Platón y Aristóteles respecto a las Ideas (formas)?",
-    o: ["Platón no creía en las Ideas","Para Platón las Ideas existen separadas del mundo; para Aristóteles la forma existe en las cosas mismas","Para Aristóteles las Ideas son más importantes","No hay diferencia: Aristóteles copió a Platón"],
+    o: ["Para Platón las Ideas son inferiores al mundo sensible; para Aristóteles son superiores","Para Platón las Ideas existen separadas del mundo; para Aristóteles la forma existe en las cosas mismas","Para Aristóteles las Ideas son más importantes que los objetos; Platón las consideraba secundarias","No hay diferencia real: Aristóteles adoptó la teoría de las Ideas de su maestro sin modificarla"],
     c: 1,
     exp: "Platón ubica las Ideas en un mundo separado, trascendente. Aristóteles las 'devuelve a la tierra': la forma (eidos) existe inmanente en la materia concreta de cada cosa."
   }
@@ -621,7 +622,7 @@ sabio: [
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbxHuPBB9MW0pMXNh-i8m48T3DFULKKAMxdu6lzkYRPO20JSPp4OCInpMrKDWrzDhHnN/exec';
 
 // ── IDENTIFICACIÓN DEL QUIZ ──────────────────────────────
-const QUIZ_TEMA   = 2;
+const QUIZ_TEMA   = 3;
 const QUIZ_UNIDAD = 1;
 
 let jugador = { nombre:'', apellido:'', curso:'' };
