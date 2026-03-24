@@ -370,12 +370,12 @@ body::after{
   <div style="font-family:'Orbitron',sans-serif;font-size:.6rem;color:var(--gold);letter-spacing:.12em;text-align:center;margin-bottom:.8rem;border:1px solid var(--gold2);padding:.5rem 1rem;opacity:.85;">⚠ DEBÉS COMPLETAR LOS 3 NIVELES PARA REGISTRAR TU CALIFICACIÓN</div>
   <div class="nivel-cards">
     <div class="nivel-card novato" onclick="iniciarJuego('novato')">
-      <div class="nivel-name">⚡ NOVATO — Presocráticos</div>
+      <div class="nivel-name">⚡ APRENDIZ — Presocráticos</div>
       <div class="nivel-desc">8 preguntas · 20 segundos cada una<br>Tales, Anaximandro, Anaxímenes, Heráclito, Parménides</div>
       <div class="nivel-info">// DIFICULTAD BÁSICA · TIMER MODERADO</div>
     </div>
     <div class="nivel-card guerra" onclick="iniciarJuego('guerra')">
-      <div class="nivel-name">⚔ GUERRA — Sofistas y Sócrates</div>
+      <div class="nivel-name">⚔ FILÓSOFO — Sofistas y Sócrates</div>
       <div class="nivel-desc">10 preguntas · 15 segundos cada una<br>Empédocles, Atomistas, Sofistas, Sócrates, Platón</div>
       <div class="nivel-info">// DIFICULTAD MEDIA · TIMER AJUSTADO</div>
     </div>
@@ -391,7 +391,7 @@ body::after{
 <div id="screen-juego" class="screen">
   <div class="hud">
     <div class="hud-score" id="hud-score">000</div>
-    <div class="hud-nivel" id="hud-nivel">NOVATO</div>
+    <div class="hud-nivel" id="hud-nivel">APRENDIZ</div>
     <div class="hud-combo" id="hud-combo"></div>
   </div>
   <div class="timer-bar-wrap">
@@ -674,7 +674,7 @@ function iniciarJuego(nivel){
   preguntas = shuffle(BANCO[nivel]);
   qIdx = 0; score = 0; combo = 0; maxCombo = 0; correctas = 0; cntAgotado = 0; respuestas = [];
   tiempoInicio = Date.now();
-  document.getElementById('hud-nivel').textContent = nivel.toUpperCase();
+  document.getElementById('hud-nivel').textContent = {novato:'APRENDIZ', guerra:'FILÓSOFO', sabio:'SABIO'}[nivel];
   actualizarScore();
   renderDots();
   irA('screen-juego');
@@ -853,7 +853,7 @@ function enviarResultado(pct, rango){
     nombre      : jugador.nombre,
     apellido    : jugador.apellido,
     curso       : jugador.curso,
-    nivel       : nivelActual.toUpperCase(),
+    nivel       : {novato:1, guerra:2, sabio:3}[nivelActual],
     score,
     precision   : pct,
     pctAprobacion,
